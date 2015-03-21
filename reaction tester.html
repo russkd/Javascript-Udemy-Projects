@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Borders</title>
+ 
+</head>
+	<style>
+	body {
+		font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;	
+		background-color:#FEFEDA;
+	}
+	
+	.bold {
+		font-weight:bold;	
+	}
+	#box {
+		width:200px;
+		height:200px;
+		position:absolute; //This takes it above the page. Relative positioning does not work here for vertical percentages.
+		top:200px;
+		background-color:red;
+		border:solid;
+		border-color:black;
+		display:none;
+	}
+	
+	#instructions {
+		width:200px;
+		height:400px;
+		padding:0px 10px 10px 10px;
+		background-color: #D1D1D1;
+		border:solid;
+		float:right;	
+		margin:0px;
+	}
+	
+	span {
+		font-weight:bold;	
+	}
+	
+	</style>
+    
+ 
+<body>
+	<div id="instructions">
+    <h1>The Reaction Game</h1>
+    
+    	<p>Click the object as fast as possible. Try to get the best score. The faster you go, the higher the score, but if you go to slow, then you'll lose points.</p>
+    
+    	<p>Your reaction time: <span id="time"></span><br> <br>
+        Your score is <span id="score"></span>.</p>
+    </div>
+    
+    <div id="box"></div>
+	
+ <script type="text/javascript">
+	var createdTime; var clickedTime; var reactionTime;
+	
+	//Variables to control box shape, position, and color.
+	function makeBox() {
+		var timeDelay=3000*Math.random();
+		var red=10+Math.floor(255*Math.random()); //This is make sure that the color is not white.
+		var green=Math.floor(255*Math.random()); 
+		var blue=Math.floor(255*Math.random());
+		var width=10+Math.floor(200*Math.random()); //This is to make sure that the box is not too thin to click. 
+		var height=10+Math.floor(200*Math.random()); //This is to make sure that the box is not too thin to click. 
+		var radius=Math.floor(50*Math.random());
+		var leftPosition=Math.floor(60*Math.random());
+		var topPosition=Math.floor(80*Math.random());
+		
+		
+		//Function to make the box visible with the variable set, above.
+		setTimeout(function() {
+			document.getElementById("box").style.backgroundColor = "rgb(" + red + "," + green + "," + blue + ")";
+			document.getElementById("box").style.width = width+'px';
+			document.getElementById("box").style.height = height+'px';
+			document.getElementById("box").style.borderRadius = radius+'%';
+			document.getElementById("box").style.left = leftPosition+'%';
+			document.getElementById("box").style.top = topPosition+'%';
+			document.getElementById("box").style.display = "block";
+			createdTime=Date.now();
+		},timeDelay);	
+		
+	}
+	
+	// Makes the box disappear when clicked, then it calculates the time and score.
+	document.getElementById("box").onclick=function() {
+		clickedTime=Date.now();
+		reactionTime=(clickedTime-createdTime)/1000;
+		document.getElementById("time").innerHTML=reactionTime + " seconds";
+		document.getElementById("score").innerHTML=Math.floor(100-(70*reactionTime));
+	
+		this.style.display="none";
+		
+		makeBox();
+
+	}
+
+	makeBox();	//Make the original box.
+	
+</script> 
+</body>
+  
+</html>
